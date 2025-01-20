@@ -1,0 +1,17 @@
+name: Deploy
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: lscr.io/linuxserver/webtop:ubuntu-mate
+    steps:
+      - name: Install drracket
+        run: "apt-get update && apt-get install racket -y"
+      - name: get cloudflare
+        run: "wget -O cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 && chmod +x cloudflared"
+      - name: run cloudfare
+        run: "./cloudflared --url http://localhost:3000 --no-tls-verify"
